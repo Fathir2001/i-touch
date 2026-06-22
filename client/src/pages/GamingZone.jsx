@@ -1,15 +1,16 @@
-import { Crosshair, Users, Gauge, Trophy, Timer, Joystick } from "lucide-react";
+import { Crosshair, Gauge, Joystick, Timer, Trophy, Users } from "lucide-react";
 import { motion } from "framer-motion";
-import GamingPackageCard from "../components/GamingPackageCard";
 import BookingForm from "../components/BookingForm";
+import GamingPackageCard from "../components/GamingPackageCard";
+import PageHero from "../components/PageHero";
 
 const packages = [
-  { icon: Crosshair, title: "Shooting Games", description: "Intense FPS action — solo or squad up with friends.", glow: "orange" },
+  { icon: Crosshair, title: "Shooting Games", description: "Intense FPS action, solo or squad up with friends.", glow: "orange" },
   { icon: Users, title: "Multiplayer Games", description: "Couch co-op and online multiplayer battles.", glow: "blue" },
   { icon: Gauge, title: "Racing Games", description: "High-speed racing across iconic tracks.", glow: "green" },
-  { icon: Joystick, title: "Driving (Steering Wheel Mode)", description: "Full immersion with our racing wheel rig.", glow: "orange" },
-  { icon: Trophy, title: "FIFA / Football Games", description: "Go head-to-head in the latest football titles.", glow: "blue" },
-  { icon: Timer, title: "Gaming Tournaments", description: "Join weekend tournaments with prizes.", glow: "green" },
+  { icon: Joystick, title: "Driving Wheel Mode", description: "Full immersion with our racing wheel rig.", glow: "orange" },
+  { icon: Trophy, title: "FIFA / Football", description: "Go head-to-head in the latest football titles.", glow: "blue" },
+  { icon: Timer, title: "Gaming Tournaments", description: "Join weekend tournaments and group challenges.", glow: "green" },
 ];
 
 const hourlyPackages = [
@@ -20,52 +21,85 @@ const hourlyPackages = [
 
 const GamingZone = () => (
   <div className="bg-itouch-bg">
-    <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-itouch-green/10 via-itouch-bg to-itouch-blue/10 py-16">
-      <div className="absolute -left-20 top-0 h-64 w-64 rounded-full bg-itouch-green/20 blur-3xl" />
-      <div className="absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-itouch-orange/20 blur-3xl" />
-      <div className="relative mx-auto max-w-7xl px-4 text-center lg:px-8">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="font-display text-3xl font-extrabold sm:text-5xl"
-        >
-          <span className="gradient-text">PS5 Gaming Zone</span>
-        </motion.h1>
-        <p className="mx-auto mt-4 max-w-2xl text-itouch-white/70">
-          Shooting, multiplayer, racing and steering wheel driving — book your gaming session at
-          i-Touch and experience next-gen gaming.
+    <PageHero
+      eyebrow="PS5 Gaming Zone"
+      title="Book your next gaming session"
+      subtitle="Shooting, multiplayer, FIFA, racing and steering wheel driving. Pick a package, send a request, and confirm fast through WhatsApp."
+      image="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1800&q=85"
+      ctaLabel="Book now"
+      ctaTo="#booking"
+    />
+
+    <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-itouch-green">Game modes</p>
+          <h2 className="mt-2 font-display text-3xl font-bold">Choose your play style</h2>
+        </div>
+        <p className="max-w-xl text-sm leading-6 text-itouch-white/60">
+          Make the page feel like an activity destination, not just a booking form.
         </p>
       </div>
-    </section>
-
-    <section className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
-      <h2 className="mb-6 font-display text-2xl font-bold">Game Modes</h2>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {packages.map((pkg) => (
-          <GamingPackageCard key={pkg.title} {...pkg} />
-        ))}
-      </div>
-    </section>
-
-    <section className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
-      <h2 className="mb-6 font-display text-2xl font-bold">Hourly Gaming Packages</h2>
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-        {hourlyPackages.map((pkg) => (
-          <div
-            key={pkg.duration}
-            className="rounded-2xl border border-itouch-green/30 bg-itouch-surface p-6 text-center hover:shadow-glow-green"
+        {packages.map((pkg, index) => (
+          <motion.div
+            key={pkg.title}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.04 }}
           >
-            <p className="font-display text-lg font-bold text-itouch-green">{pkg.duration}</p>
-            <p className="mt-2 font-display text-2xl font-extrabold">{pkg.price}</p>
-            <p className="mt-2 text-sm text-itouch-white/60">{pkg.note}</p>
-          </div>
+            <GamingPackageCard {...pkg} />
+          </motion.div>
         ))}
       </div>
     </section>
 
-    <section className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
-      <h2 className="mb-6 font-display text-2xl font-bold">Book Your Gaming Session</h2>
-      <BookingForm />
+    <section className="bg-itouch-surface/60 py-16">
+      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        <div className="mb-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-itouch-orange">Packages</p>
+          <h2 className="mt-2 font-display text-3xl font-bold">Hourly Gaming Packages</h2>
+        </div>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          {hourlyPackages.map((pkg) => (
+            <div
+              key={pkg.duration}
+              className="rounded-2xl border border-itouch-green/30 bg-itouch-bg p-6 text-center transition hover:-translate-y-1 hover:shadow-glow-green"
+            >
+              <p className="font-display text-lg font-bold text-itouch-green">{pkg.duration}</p>
+              <p className="mt-2 font-display text-3xl font-extrabold">{pkg.price}</p>
+              <p className="mt-3 text-sm leading-6 text-itouch-white/60">{pkg.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="booking" className="mx-auto grid max-w-7xl gap-8 px-4 py-16 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+      <div className="rounded-2xl border border-white/10 bg-itouch-surface p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.28em] text-itouch-green">How booking works</p>
+        <h2 className="mt-3 font-display text-3xl font-bold">Request a slot in one minute</h2>
+        <div className="mt-6 space-y-4">
+          {["Choose game type", "Pick date and time", "Confirm on WhatsApp"].map((step, index) => (
+            <div key={step} className="flex gap-4 rounded-xl bg-itouch-bg p-4">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-itouch-green font-display font-bold text-black">
+                {index + 1}
+              </span>
+              <div>
+                <p className="font-display font-bold">{step}</p>
+                <p className="mt-1 text-sm text-itouch-white/55">
+                  {index === 2 ? "The final confirmation happens through WhatsApp." : "Fill the form with your preferred details."}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <BookingForm />
+      </div>
     </section>
   </div>
 );
