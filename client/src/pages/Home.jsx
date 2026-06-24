@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -23,6 +23,207 @@ const sectionReveal = {
   hidden: { opacity: 0, y: 36 },
   visible: { opacity: 1, y: 0 },
 };
+
+const introItems = [
+  {
+    label: "Sports",
+    icon: Trophy,
+    color: "text-itouch-orange",
+    stroke: "#ff6a1a",
+    startX: -620,
+    startY: -280,
+    endX: -430,
+    endY: -170,
+    path: "M 150 120 C 315 170 420 250 640 310",
+  },
+  {
+    label: "Gaming",
+    icon: Gamepad2,
+    color: "text-itouch-green",
+    stroke: "#39ff8a",
+    startX: 620,
+    startY: -260,
+    endX: 430,
+    endY: -170,
+    path: "M 1130 120 C 950 165 850 245 640 310",
+  },
+  {
+    label: "Mobile",
+    icon: Smartphone,
+    color: "text-itouch-blue",
+    stroke: "#00c2ff",
+    startX: -600,
+    startY: 290,
+    endX: -430,
+    endY: 185,
+    path: "M 155 505 C 330 455 425 375 640 310",
+  },
+  {
+    label: "Offers",
+    icon: Tag,
+    color: "text-itouch-orange",
+    stroke: "#ff6a1a",
+    startX: 600,
+    startY: 280,
+    endX: 430,
+    endY: 185,
+    path: "M 1130 505 C 950 455 850 375 640 310",
+  },
+];
+
+const HomeIntro = () => (
+  <motion.div
+    initial={{ opacity: 1 }}
+    exit={{ opacity: 0, scale: 1.02 }}
+    transition={{ duration: 0.55, ease: "easeInOut" }}
+    className="fixed inset-0 z-[999] grid place-items-center overflow-hidden bg-itouch-bg"
+  >
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(255,106,26,0.14),transparent_24%),radial-gradient(circle_at_82%_22%,rgba(57,255,138,0.12),transparent_24%),radial-gradient(circle_at_18%_82%,rgba(0,194,255,0.13),transparent_25%),radial-gradient(circle_at_82%_80%,rgba(255,106,26,0.1),transparent_24%),linear-gradient(135deg,#0a0a0f_0%,#111119_52%,#07070b_100%)]" />
+    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:70px_70px] opacity-20" />
+
+    {[...Array(36)].map((_, index) => {
+      const angle = (index / 36) * Math.PI * 2;
+      const startRadius = index % 2 === 0 ? 760 : 560;
+      const endRadius = index % 4 === 0 ? 360 : index % 4 === 1 ? 270 : index % 4 === 2 ? 430 : 210;
+      return (
+      <motion.span
+        key={index}
+        initial={{
+          opacity: 0,
+          x: Math.cos(angle) * startRadius,
+          y: Math.sin(angle) * startRadius * 0.58,
+          rotate: index * 16,
+        }}
+        animate={{
+          opacity: [0, 0.85, 0.95, 0.22],
+          x: [Math.cos(angle) * startRadius, 0, Math.cos(angle) * endRadius],
+          y: [Math.sin(angle) * startRadius * 0.58, 0, Math.sin(angle) * endRadius * 0.55],
+          rotate: [index * 16, 360, 540],
+        }}
+        transition={{
+          duration: 3.8,
+          delay: index * 0.018,
+          ease: "easeInOut",
+        }}
+        className={`absolute h-1 rounded-full ${
+          index % 3 === 0
+            ? "w-36 bg-itouch-orange"
+            : index % 3 === 1
+              ? "w-32 bg-itouch-blue"
+              : "w-28 bg-itouch-green"
+        } blur-[1px]`}
+      />
+      );
+    })}
+
+    <div className="relative h-[min(78vh,620px)] w-full max-w-7xl">
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1280 620"
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        preserveAspectRatio="none"
+      >
+        {introItems.map(({ label, path, stroke }, index) => (
+          <motion.path
+            key={label}
+            d={path}
+            fill="none"
+            stroke={stroke}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: [0, 1, 1, 0.35], opacity: [0, 0.55, 0.35, 0] }}
+            transition={{ duration: 3.4, delay: 0.25 + index * 0.1, ease: "easeInOut" }}
+            style={{ filter: "drop-shadow(0 0 10px currentColor)" }}
+          />
+        ))}
+      </svg>
+
+      <motion.div
+        aria-hidden="true"
+        initial={{ opacity: 0, scale: 0.35 }}
+        animate={{ opacity: [0, 0.75, 0], scale: [0.35, 1.65, 2.45] }}
+        transition={{ duration: 1.35, delay: 2.85, ease: "easeOut" }}
+        className="absolute left-1/2 top-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full border border-itouch-orange/50 shadow-glow"
+      />
+      <motion.div
+        aria-hidden="true"
+        initial={{ opacity: 0, scale: 0.45 }}
+        animate={{ opacity: [0, 0.55, 0], scale: [0.45, 1.4, 2.05] }}
+        transition={{ duration: 1.2, delay: 3.05, ease: "easeOut" }}
+        className="absolute left-1/2 top-1/2 h-44 w-44 -translate-x-1/2 -translate-y-1/2 rounded-full border border-itouch-blue/50 shadow-glow-blue"
+      />
+
+      {introItems.map(({ label, icon: Icon, color, startX, startY, endX, endY }, index) => (
+        <div key={label} className="absolute inset-0 grid place-items-center">
+          <motion.div
+            initial={{ opacity: 0, x: startX, y: startY, scale: 0.92 }}
+            animate={{
+              opacity: [0, 1, 1, 1],
+              x: [startX, startX * 0.32, 0, endX],
+              y: [startY, startY * 0.32, 0, endY],
+              scale: [0.92, 1.22, 1.05, 1.14],
+            }}
+            transition={{ duration: 4.05, delay: index * 0.08, ease: "easeInOut" }}
+            className="flex min-w-[140px] items-center justify-center gap-3 rounded-2xl border border-white/10 bg-black/45 px-5 py-4 shadow-2xl backdrop-blur"
+          >
+            <Icon className={color} size={28} />
+            <span className="font-display text-base font-bold">{label}</span>
+          </motion.div>
+        </div>
+      ))}
+
+      <div className="absolute inset-0 grid place-items-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.72, filter: "blur(16px)" }}
+          animate={{ opacity: 1, scale: [0.72, 1.08, 1], filter: "blur(0px)" }}
+          transition={{ duration: 1.2, delay: 1.95, ease: "easeOut" }}
+          className="w-[min(78vw,540px)] text-center"
+        >
+          <div className="mx-auto mb-5 h-px w-40 bg-gradient-to-r from-transparent via-itouch-orange to-transparent" />
+          <p className="text-base font-extrabold uppercase tracking-[0.36em] text-itouch-orange sm:text-xl">
+            Welcome to
+          </p>
+          <h2 className="mt-3 flex items-baseline justify-center gap-1 font-display text-6xl font-extrabold leading-tight sm:text-8xl">
+            {[
+              { text: "i", className: "text-itouch-white" },
+              { text: "-", className: "text-itouch-white" },
+              { text: "T", className: "text-itouch-orange" },
+              { text: "o", className: "text-itouch-white/65" },
+              { text: "u", className: "text-itouch-blue" },
+              { text: "c", className: "text-cyan-400" },
+              { text: "h", className: "text-itouch-green" },
+            ].map((letter, index) => (
+              <motion.span
+                key={`${letter.text}-${index}`}
+                initial={{ opacity: 0, y: 34, rotateX: -70, scale: 0.85 }}
+                animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+                transition={{ duration: 0.55, delay: 2.05 + index * 0.08, ease: "easeOut" }}
+                className={letter.className}
+              >
+                {letter.text}
+              </motion.span>
+            ))}
+          </h2>
+          <p className="mt-4 text-sm font-semibold text-itouch-white/65">
+            Sports, gaming and mobile in one place
+          </p>
+          <div className="mx-auto mt-7 flex h-1 max-w-xs overflow-hidden rounded-full bg-white/10">
+            {["bg-itouch-orange", "bg-itouch-green", "bg-itouch-blue", "bg-itouch-orange"].map((className, index) => (
+              <motion.span
+                key={`${className}-${index}`}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.5, delay: 3.05 + index * 0.22, ease: "easeInOut" }}
+                className={`h-full flex-1 origin-left ${className}`}
+              />
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  </motion.div>
+);
 
 const SectionHeading = ({ eyebrow, title, subtitle, link, linkLabel }) => (
   <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
@@ -63,6 +264,7 @@ const Home = () => {
   const [featured, setFeatured] = useState([]);
   const [offers, setOffers] = useState([]);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
+  const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
     fetchFeaturedProducts()
@@ -75,10 +277,37 @@ const Home = () => {
       .catch(() => setOffers([]));
   }, []);
 
+  useEffect(() => {
+    if (!showIntro) return undefined;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const timer = window.setTimeout(() => {
+      setShowIntro(false);
+      document.body.style.overflow = originalOverflow;
+
+      window.setTimeout(() => {
+        document.getElementById("home-hero")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 220);
+    }, 5200);
+
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [showIntro]);
+
   return (
     <div className="relative overflow-hidden bg-itouch-bg">
+      <AnimatePresence>{showIntro && <HomeIntro />}</AnimatePresence>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_28%,rgba(255,106,26,0.11),transparent_28%),radial-gradient(circle_at_88%_45%,rgba(0,194,255,0.1),transparent_30%),radial-gradient(circle_at_45%_80%,rgba(57,255,138,0.08),transparent_26%)]" />
-      <HeroSection />
+      <div id="home-hero">
+        <HeroSection />
+      </div>
 
       <motion.section
         variants={sectionReveal}
