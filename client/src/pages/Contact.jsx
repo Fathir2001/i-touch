@@ -7,9 +7,12 @@ import { buildGeneralWhatsAppUrl } from "../utils/whatsapp";
 
 const details = [
   { icon: Phone, label: "Phone", value: "+94 77 835 3336" },
-  { icon: MapPin, label: "Location", value: "Colombo, Sri Lanka" },
+  { icon: MapPin, label: "Location", value: "I touch, Sri Lanka" },
   { icon: Clock, label: "Hours", value: "Mon - Sat: 9:00 AM - 8:00 PM" },
 ];
+
+const mapUrl =
+  "https://www.google.com/maps/place/I+touch/@8.2121897,79.740754,20.01z/data=!4m6!3m5!1s0x3afd0d005a6dcf11:0x724051599dcdfc85!8m2!3d8.2119189!4d79.7405339!16s%2Fg%2F11w2zvtt6g";
 
 const Contact = () => (
   <div className="relative overflow-hidden bg-itouch-bg">
@@ -25,57 +28,46 @@ const Contact = () => (
       initial={{ opacity: 0, y: 28 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, delay: 0.08 }}
-      className="relative z-10 mx-auto -mt-10 grid max-w-7xl gap-8 px-4 pb-16 lg:grid-cols-[0.9fr_1.1fr] lg:px-8"
+      className="relative z-10 mx-auto -mt-10 grid max-w-7xl items-start gap-8 px-4 pb-16 lg:grid-cols-[0.9fr_1.1fr] lg:px-8"
     >
-      <div className="space-y-6">
-        <div className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-itouch-surface/90 p-6 shadow-2xl backdrop-blur-xl">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-itouch-orange/80 to-transparent" />
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-itouch-orange">
-            Shop details
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-bold">Reach us quickly</h2>
-          <p className="mt-3 text-sm leading-6 text-itouch-white/60">
-            Send a message for prices, stock availability, product photos or PS5 booking times.
-          </p>
+      <div className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-itouch-surface/90 p-6 shadow-2xl backdrop-blur-xl">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-itouch-orange/80 to-transparent" />
+        <p className="text-xs font-bold uppercase tracking-[0.28em] text-itouch-orange">
+          Shop details
+        </p>
+        <h2 className="mt-3 font-display text-3xl font-bold">Reach us quickly</h2>
+        <p className="mt-3 text-sm leading-6 text-itouch-white/60">
+          Send a message for prices, stock availability, product photos or PS5 booking times.
+        </p>
 
-          <div className="mt-6 space-y-3">
-            {details.map(({ icon: Icon, label, value }) => (
-              <motion.div
-                key={label}
-                whileHover={{ x: 4 }}
-                className="group flex gap-3 rounded-xl border border-white/10 bg-itouch-bg/90 p-4 transition hover:border-itouch-orange/35"
-              >
-                <Icon size={20} className="mt-0.5 shrink-0 text-itouch-orange transition group-hover:scale-110" />
-                <div>
-                  <p className="font-display text-sm font-bold">{label}</p>
-                  <p className="mt-1 text-sm text-itouch-white/65">{value}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <WhatsAppButton url={buildGeneralWhatsAppUrl()} label="Chat on WhatsApp" full className="mt-5" />
-          <div className="mt-4 flex gap-3">
-            <a href="#" className="rounded-lg bg-white/5 p-2 transition hover:-translate-y-1 hover:text-itouch-blue" aria-label="Facebook">
-              <Facebook size={18} />
-            </a>
-            <a href="#" className="rounded-lg bg-white/5 p-2 transition hover:-translate-y-1 hover:text-itouch-orange" aria-label="Instagram">
-              <Instagram size={18} />
-            </a>
-          </div>
+        <div className="mt-6 space-y-3">
+          {details.map(({ icon: Icon, label, value }) => (
+            <motion.div
+              key={label}
+              whileHover={{ x: 4 }}
+              className="group flex gap-3 rounded-xl border border-white/10 bg-itouch-bg/90 p-4 transition hover:border-itouch-orange/35"
+            >
+              <Icon size={20} className="mt-0.5 shrink-0 text-itouch-orange transition group-hover:scale-110" />
+              <div>
+                <p className="font-display text-sm font-bold">{label}</p>
+                <p className="mt-1 text-sm text-itouch-white/65">{value}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-itouch-surface-2 shadow-2xl">
-          <iframe
-            title="i-Touch Location Map"
-            className="h-80 w-full"
-            loading="lazy"
-            src="https://www.google.com/maps?q=Colombo,Sri Lanka&output=embed"
-          />
+        <WhatsAppButton url={buildGeneralWhatsAppUrl()} label="Chat on WhatsApp" full className="mt-5" />
+        <div className="mt-4 flex gap-3">
+          <a href="#" className="rounded-lg bg-white/5 p-2 transition hover:-translate-y-1 hover:text-itouch-blue" aria-label="Facebook">
+            <Facebook size={18} />
+          </a>
+          <a href="#" className="rounded-lg bg-white/5 p-2 transition hover:-translate-y-1 hover:text-itouch-orange" aria-label="Instagram">
+            <Instagram size={18} />
+          </a>
         </div>
       </div>
 
-      <div className="rounded-[1.5rem] border border-white/10 bg-itouch-surface/90 p-6 shadow-2xl shadow-black/20 backdrop-blur">
+      <div className="rounded-[1.5rem] border border-white/10 bg-itouch-surface/90 p-5 shadow-2xl shadow-black/20 backdrop-blur sm:p-6">
         <div className="mb-5 flex items-center gap-3">
           <div className="rounded-2xl bg-itouch-orange/10 p-3 text-itouch-orange shadow-glow">
             <MessageCircle size={22} />
@@ -86,6 +78,23 @@ const Contact = () => (
           </div>
         </div>
         <ContactForm />
+      </div>
+
+      <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-itouch-surface-2 shadow-2xl lg:col-span-2">
+        <iframe
+          title="i-Touch Location Map"
+          className="h-[360px] w-full sm:h-[420px]"
+          loading="lazy"
+          src="https://www.google.com/maps?q=8.2119189,79.7405339&z=13&output=embed"
+        />
+        <a
+          href={mapUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center justify-center gap-2 bg-itouch-surface px-4 py-3 text-sm font-bold text-itouch-orange transition hover:bg-itouch-orange hover:text-black"
+        >
+          <MapPin size={16} /> Open in Google Maps
+        </a>
       </div>
     </motion.section>
   </div>
