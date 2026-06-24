@@ -10,13 +10,14 @@ const GamingPackageCard = ({ icon: Icon, title, description, glow = "orange" }) 
   return (
     <motion.div
       whileHover={{ y: -5, scale: 1.02 }}
-      className={`flex flex-col gap-3 rounded-2xl border border-white/10 bg-gradient-to-b from-itouch-surface to-itouch-surface-2 p-5 transition-all ${glowMap[glow]}`}
+      className={`group relative flex flex-col gap-3 overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-b from-itouch-surface to-itouch-surface-2 p-5 shadow-xl shadow-black/20 transition-all ${glowMap[glow]}`}
     >
-      <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-white/5 ${glowMap[glow].split(" ").pop()}`}>
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 transition group-hover:opacity-100" />
+      <div className={`relative flex h-12 w-12 items-center justify-center rounded-xl bg-white/5 transition group-hover:scale-110 ${glowMap[glow].split(" ").pop()}`}>
         <Icon size={24} />
       </div>
-      <h3 className="font-display text-base font-bold text-itouch-white">{title}</h3>
-      <p className="text-sm text-itouch-white/60">{description}</p>
+      <h3 className="relative font-display text-base font-bold text-itouch-white">{title}</h3>
+      <p className="relative text-sm text-itouch-white/60">{description}</p>
     </motion.div>
   );
 };

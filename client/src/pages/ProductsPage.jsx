@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Gamepad2, ShoppingBag, Smartphone, Trophy } from "lucide-react";
 import PageHero from "../components/PageHero";
@@ -49,7 +50,8 @@ const ProductsPage = ({ fixedCategory, title, subtitle }) => {
   }, [filters]);
 
   return (
-    <div className="bg-itouch-bg">
+    <div className="relative overflow-hidden bg-itouch-bg">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_34%,rgba(255,106,26,0.1),transparent_28%),radial-gradient(circle_at_86%_72%,rgba(0,194,255,0.09),transparent_28%)]" />
       <PageHero
         eyebrow={meta.eyebrow}
         title={title || "All Products"}
@@ -57,11 +59,17 @@ const ProductsPage = ({ fixedCategory, title, subtitle }) => {
         image={meta.image}
       />
 
-      <section className="mx-auto -mt-10 max-w-7xl px-4 pb-16 lg:px-8">
-        <div className="mb-8 rounded-2xl border border-white/10 bg-itouch-surface/95 p-4 shadow-2xl backdrop-blur">
+      <motion.section
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, delay: 0.08 }}
+        className="relative z-10 mx-auto -mt-10 max-w-7xl px-4 pb-16 lg:px-8"
+      >
+        <div className="mb-8 overflow-hidden rounded-[1.5rem] border border-white/10 bg-itouch-surface/90 p-4 shadow-2xl backdrop-blur-xl">
+          <div className="pointer-events-none absolute inset-x-4 top-0 h-px max-w-7xl bg-gradient-to-r from-transparent via-itouch-orange/70 to-transparent" />
           <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-itouch-orange/10 p-3 text-itouch-orange">
+              <div className="rounded-2xl bg-itouch-orange/10 p-3 text-itouch-orange shadow-glow">
                 <HeroIcon size={22} />
               </div>
               <div>
@@ -73,7 +81,7 @@ const ProductsPage = ({ fixedCategory, title, subtitle }) => {
             </div>
             <Link
               to="/gaming"
-              className="inline-flex items-center gap-2 rounded-xl border border-itouch-green/30 px-4 py-2 text-sm font-bold text-itouch-green transition hover:bg-itouch-green/10"
+              className="inline-flex items-center gap-2 rounded-xl border border-itouch-green/30 px-4 py-2 text-sm font-bold text-itouch-green transition hover:-translate-y-1 hover:bg-itouch-green hover:text-black hover:shadow-glow-green"
             >
               <Gamepad2 size={16} /> Gaming zone <ArrowRight size={15} />
             </Link>
@@ -86,13 +94,13 @@ const ProductsPage = ({ fixedCategory, title, subtitle }) => {
 
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <h2 className="font-display text-2xl font-bold">Available Products</h2>
-          <p className="text-sm text-itouch-white/50">
+          <p className="rounded-full border border-white/10 bg-itouch-surface/80 px-3 py-1 text-sm text-itouch-white/60">
             {loading ? "Loading..." : `${products.length} item${products.length === 1 ? "" : "s"} found`}
           </p>
         </div>
 
         <ProductGrid products={products} loading={loading} />
-      </section>
+      </motion.section>
     </div>
   );
 };

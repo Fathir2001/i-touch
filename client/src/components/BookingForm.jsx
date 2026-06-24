@@ -25,7 +25,7 @@ const initialForm = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-itouch-bg py-2.5 pl-10 pr-3 text-sm outline-none focus:border-itouch-green";
+  "w-full rounded-xl border border-white/10 bg-itouch-bg/90 py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-itouch-green focus:shadow-glow-green";
 
 const BookingForm = () => {
   const [form, setForm] = useState(initialForm);
@@ -54,9 +54,10 @@ const BookingForm = () => {
 
   if (submitted) {
     return (
-      <div className="rounded-2xl border border-itouch-green/30 bg-itouch-surface p-6 text-center">
-        <h3 className="font-display text-xl font-bold text-itouch-green">Booking Request Received!</h3>
-        <p className="mt-2 text-sm text-itouch-white/60">
+      <div className="relative overflow-hidden rounded-[1.5rem] border border-itouch-green/30 bg-itouch-surface/90 p-6 text-center shadow-2xl shadow-itouch-green/10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(57,255,138,0.18),transparent_38%)]" />
+        <h3 className="relative font-display text-xl font-bold text-itouch-green">Booking Request Received!</h3>
+        <p className="relative mt-2 text-sm text-itouch-white/60">
           We've noted your request for {submitted.gameType} on {submitted.preferredDate} at{" "}
           {submitted.preferredTime}. Confirm instantly via WhatsApp:
         </p>
@@ -71,7 +72,7 @@ const BookingForm = () => {
             setSubmitted(null);
             setForm(initialForm);
           }}
-          className="mt-3 text-sm text-itouch-white/50 underline"
+          className="relative mt-3 text-sm text-itouch-white/50 underline"
         >
           Book another session
         </button>
@@ -80,7 +81,7 @@ const BookingForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 rounded-2xl border border-itouch-green/20 bg-itouch-surface p-6 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 rounded-[1.5rem] border border-itouch-green/20 bg-itouch-surface/90 p-6 shadow-2xl shadow-black/20 sm:grid-cols-2">
       <div className="relative sm:col-span-1">
         <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-itouch-white/40" />
         <input required name="customerName" value={form.customerName} onChange={handleChange} placeholder="Your Name" className={inputClass} />
@@ -121,7 +122,7 @@ const BookingForm = () => {
       <button
         type="submit"
         disabled={submitting}
-        className="sm:col-span-2 rounded-xl bg-itouch-green px-4 py-3 font-display font-bold text-black transition-all hover:shadow-glow-green disabled:opacity-50"
+        className="shine-button rounded-xl bg-itouch-green px-4 py-3 font-display font-bold text-black transition-all hover:-translate-y-1 hover:shadow-glow-green disabled:opacity-50 sm:col-span-2"
       >
         {submitting ? "Submitting..." : "Book My Gaming Session"}
       </button>

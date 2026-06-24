@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { ChevronRight, MessageCircle, ShieldCheck, Truck } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import EmptyState from "../components/EmptyState";
@@ -36,8 +37,9 @@ const ProductDetails = () => {
   const images = product.images?.length ? product.images : ["https://placehold.co/900x900?text=i-Touch"];
 
   return (
-    <div className="bg-itouch-bg">
-      <section className="border-b border-white/10 bg-itouch-surface/50">
+    <div className="relative overflow-hidden bg-itouch-bg">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(255,106,26,0.1),transparent_28%),radial-gradient(circle_at_80%_64%,rgba(0,194,255,0.08),transparent_28%)]" />
+      <section className="relative z-10 border-b border-white/10 bg-itouch-surface/50 backdrop-blur">
         <div className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-1 text-sm text-itouch-white/50">
             <Link to="/products" className="hover:text-itouch-orange">
@@ -51,13 +53,18 @@ const ProductDetails = () => {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-10 px-4 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+      <motion.section
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55 }}
+        className="relative z-10 mx-auto grid max-w-7xl gap-10 px-4 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
+      >
         <div>
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-itouch-surface-2 shadow-2xl">
+          <div className="group overflow-hidden rounded-[1.5rem] border border-white/10 bg-itouch-surface-2 shadow-2xl">
             <img
               src={images[activeImage]}
               alt={product.name}
-              className="aspect-square h-full w-full object-cover"
+              className="aspect-square h-full w-full object-cover transition duration-700 group-hover:scale-105"
             />
           </div>
           {images.length > 1 && (
@@ -66,8 +73,8 @@ const ProductDetails = () => {
                 <button
                   key={img}
                   onClick={() => setActiveImage(idx)}
-                  className={`aspect-square overflow-hidden rounded-xl border transition ${
-                    idx === activeImage ? "border-itouch-orange shadow-glow" : "border-white/10 opacity-75"
+                  className={`aspect-square overflow-hidden rounded-xl border transition hover:-translate-y-1 hover:opacity-100 ${
+                    idx === activeImage ? "border-itouch-orange opacity-100 shadow-glow" : "border-white/10 opacity-70"
                   }`}
                 >
                   <img src={img} alt="" className="h-full w-full object-cover" />
@@ -78,8 +85,9 @@ const ProductDetails = () => {
         </div>
 
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-2xl border border-white/10 bg-itouch-surface p-6 shadow-2xl sm:p-8">
-            <span className="inline-flex rounded-full bg-itouch-orange/10 px-3 py-1 text-xs font-semibold uppercase text-itouch-orange">
+          <div className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-itouch-surface/90 p-6 shadow-2xl backdrop-blur sm:p-8">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-itouch-orange/80 to-transparent" />
+            <span className="inline-flex rounded-full border border-itouch-orange/20 bg-itouch-orange/10 px-3 py-1 text-xs font-semibold uppercase text-itouch-orange">
               {product.subCategory}
             </span>
             <h1 className="mt-4 font-display text-3xl font-extrabold leading-tight sm:text-5xl">
@@ -98,19 +106,19 @@ const ProductDetails = () => {
             </p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-xl border border-white/10 bg-itouch-bg p-4">
+              <motion.div whileHover={{ y: -4 }} className="rounded-xl border border-white/10 bg-itouch-bg/90 p-4 transition hover:border-itouch-green/40">
                 <ShieldCheck className="text-itouch-green" size={22} />
                 <p className="mt-2 font-display font-bold">Quality checked</p>
                 <p className="mt-1 text-xs text-itouch-white/55">Ask for final availability before pickup.</p>
-              </div>
-              <div className="rounded-xl border border-white/10 bg-itouch-bg p-4">
+              </motion.div>
+              <motion.div whileHover={{ y: -4 }} className="rounded-xl border border-white/10 bg-itouch-bg/90 p-4 transition hover:border-itouch-blue/40">
                 <Truck className="text-itouch-blue" size={22} />
                 <p className="mt-2 font-display font-bold">Order by WhatsApp</p>
                 <p className="mt-1 text-xs text-itouch-white/55">Fast chat-based ordering with the shop.</p>
-              </div>
+              </motion.div>
             </div>
 
-            <div className="mt-6 rounded-xl border border-white/10 bg-itouch-bg p-4 text-sm text-itouch-white/65">
+            <div className="mt-6 rounded-xl border border-white/10 bg-itouch-bg/90 p-4 text-sm text-itouch-white/65">
               <p>
                 <span className="text-itouch-white">Category:</span>{" "}
                 <span className="capitalize">{product.category}</span>
@@ -126,10 +134,16 @@ const ProductDetails = () => {
             </p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {related?.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 pb-16 lg:px-8">
+        <motion.section
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55 }}
+          className="relative z-10 mx-auto max-w-7xl px-4 pb-16 lg:px-8"
+        >
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-itouch-orange">
@@ -146,7 +160,7 @@ const ProductDetails = () => {
               <ProductCard key={p._id} product={p} />
             ))}
           </div>
-        </section>
+        </motion.section>
       )}
     </div>
   );

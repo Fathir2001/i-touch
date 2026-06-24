@@ -18,7 +18,7 @@ const ProductCard = ({ product }) => {
     <motion.div
       whileHover={{ y: -6 }}
       transition={{ duration: 0.25 }}
-      className={`group relative flex flex-col overflow-hidden rounded-[1.35rem] border bg-itouch-surface shadow-xl shadow-black/20 transition-all duration-300 before:pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/8 before:to-transparent before:opacity-0 before:transition before:content-[''] hover:-translate-y-1 hover:bg-itouch-surface-2 hover:before:opacity-100 ${
+      className={`group relative flex flex-col overflow-hidden rounded-[1.35rem] border bg-itouch-surface shadow-xl shadow-black/20 transition-all duration-300 before:pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 before:transition before:content-[''] hover:-translate-y-1 hover:bg-itouch-surface-2 hover:before:opacity-100 ${
         categoryColors[product.category] || "border-white/10"
       }`}
     >
@@ -29,7 +29,7 @@ const ProductCard = ({ product }) => {
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
-        <span className="absolute left-3 top-3 rounded-full border border-white/10 bg-black/65 px-2.5 py-1 text-[11px] uppercase tracking-wide text-itouch-white/80 backdrop-blur">
+        <span className="absolute left-3 top-3 rounded-full border border-white/10 bg-black/70 px-2.5 py-1 text-[11px] uppercase tracking-wide text-itouch-white/80 backdrop-blur">
           {product.subCategory}
         </span>
       </Link>

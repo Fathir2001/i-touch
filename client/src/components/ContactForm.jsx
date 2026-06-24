@@ -6,7 +6,7 @@ import { createContactMessage } from "../services/resources";
 const initialForm = { name: "", phone: "", email: "", message: "" };
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-itouch-bg py-2.5 pl-10 pr-3 text-sm outline-none focus:border-itouch-blue";
+  "w-full rounded-xl border border-white/10 bg-itouch-bg/90 py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-itouch-blue focus:shadow-glow-blue";
 
 const ContactForm = () => {
   const [form, setForm] = useState(initialForm);
@@ -29,7 +29,7 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-2xl border border-itouch-blue/20 bg-itouch-surface p-6">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-2xl border border-itouch-blue/20 bg-itouch-surface/90 p-6 shadow-xl shadow-black/20">
       <div className="relative">
         <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-itouch-white/40" />
         <input required name="name" value={form.name} onChange={handleChange} placeholder="Your Name" className={inputClass} />
@@ -49,7 +49,7 @@ const ContactForm = () => {
       <button
         type="submit"
         disabled={submitting}
-        className="rounded-xl bg-itouch-blue px-4 py-3 font-display font-bold text-black transition-all hover:shadow-glow-blue disabled:opacity-50"
+        className="shine-button rounded-xl bg-itouch-blue px-4 py-3 font-display font-bold text-black transition-all hover:-translate-y-1 hover:shadow-glow-blue disabled:opacity-50"
       >
         {submitting ? "Sending..." : "Send Message"}
       </button>

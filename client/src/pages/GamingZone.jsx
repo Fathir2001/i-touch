@@ -19,8 +19,14 @@ const hourlyPackages = [
   { duration: "Full Day", price: "Rs. 3,500", note: "Tournament-ready, up to 4 players" },
 ];
 
+const sectionReveal = {
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0 },
+};
+
 const GamingZone = () => (
-  <div className="bg-itouch-bg">
+  <div className="relative overflow-hidden bg-itouch-bg">
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_30%,rgba(57,255,138,0.1),transparent_28%),radial-gradient(circle_at_85%_62%,rgba(0,194,255,0.1),transparent_26%)]" />
     <PageHero
       eyebrow="PS5 Gaming Zone"
       title="Book your next gaming session"
@@ -30,7 +36,14 @@ const GamingZone = () => (
       ctaTo="#booking"
     />
 
-    <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
+    <motion.section
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.55 }}
+      className="relative z-10 mx-auto max-w-7xl px-4 py-16 lg:px-8"
+    >
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-itouch-green">Game modes</p>
@@ -53,9 +66,16 @@ const GamingZone = () => (
           </motion.div>
         ))}
       </div>
-    </section>
+    </motion.section>
 
-    <section className="bg-itouch-surface/60 py-16">
+    <motion.section
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.55 }}
+      className="relative z-10 border-y border-white/5 bg-itouch-surface/55 py-16 backdrop-blur"
+    >
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="mb-8 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-itouch-orange">Packages</p>
@@ -63,26 +83,40 @@ const GamingZone = () => (
         </div>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           {hourlyPackages.map((pkg) => (
-            <div
+            <motion.div
               key={pkg.duration}
-              className="rounded-2xl border border-itouch-green/30 bg-itouch-bg p-6 text-center transition hover:-translate-y-1 hover:shadow-glow-green"
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="relative overflow-hidden rounded-[1.35rem] border border-itouch-green/30 bg-itouch-bg/90 p-6 text-center shadow-xl shadow-black/20 transition hover:border-itouch-green/60 hover:shadow-glow-green"
             >
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-itouch-green to-transparent" />
               <p className="font-display text-lg font-bold text-itouch-green">{pkg.duration}</p>
               <p className="mt-2 font-display text-3xl font-extrabold">{pkg.price}</p>
               <p className="mt-3 text-sm leading-6 text-itouch-white/60">{pkg.note}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
 
-    <section id="booking" className="mx-auto grid max-w-7xl gap-8 px-4 py-16 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
-      <div className="rounded-2xl border border-white/10 bg-itouch-surface p-6">
+    <motion.section
+      id="booking"
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.55 }}
+      className="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 py-16 lg:grid-cols-[0.8fr_1.2fr] lg:px-8"
+    >
+      <div className="rounded-[1.5rem] border border-white/10 bg-itouch-surface/90 p-6 shadow-2xl shadow-black/20 backdrop-blur">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-itouch-green">How booking works</p>
         <h2 className="mt-3 font-display text-3xl font-bold">Request a slot in one minute</h2>
         <div className="mt-6 space-y-4">
           {["Choose game type", "Pick date and time", "Confirm on WhatsApp"].map((step, index) => (
-            <div key={step} className="flex gap-4 rounded-xl bg-itouch-bg p-4">
+            <motion.div
+              key={step}
+              whileHover={{ x: 4 }}
+              className="flex gap-4 rounded-xl border border-white/10 bg-itouch-bg/90 p-4 transition hover:border-itouch-green/35"
+            >
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-itouch-green font-display font-bold text-black">
                 {index + 1}
               </span>
@@ -92,7 +126,7 @@ const GamingZone = () => (
                   {index === 2 ? "The final confirmation happens through WhatsApp." : "Fill the form with your preferred details."}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -100,7 +134,7 @@ const GamingZone = () => (
       <div>
         <BookingForm />
       </div>
-    </section>
+    </motion.section>
   </div>
 );
 
