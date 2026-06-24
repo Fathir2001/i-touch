@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -17,6 +18,11 @@ import OfferBanner from "../components/OfferBanner";
 import { fetchActiveOffers, fetchFeaturedProducts } from "../services/resources";
 import { featuredCategories, whyChooseUs } from "../data/staticData";
 import { buildGeneralWhatsAppUrl, openWhatsApp } from "../utils/whatsapp";
+
+const sectionReveal = {
+  hidden: { opacity: 0, y: 36 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const SectionHeading = ({ eyebrow, title, subtitle, link, linkLabel }) => (
   <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
@@ -70,28 +76,46 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-itouch-bg">
+    <div className="relative overflow-hidden bg-itouch-bg">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_28%,rgba(255,106,26,0.11),transparent_28%),radial-gradient(circle_at_88%_45%,rgba(0,194,255,0.1),transparent_30%),radial-gradient(circle_at_45%_80%,rgba(57,255,138,0.08),transparent_26%)]" />
       <HeroSection />
 
-      <section className="mx-auto -mt-12 max-w-7xl px-4 lg:px-8">
-        <div className="grid gap-3 rounded-2xl border border-white/10 bg-itouch-surface/95 p-3 shadow-2xl backdrop-blur sm:grid-cols-2 lg:grid-cols-4">
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.55 }}
+        className="relative z-10 mx-auto -mt-12 max-w-7xl px-4 lg:px-8"
+      >
+        <div className="grid gap-3 rounded-[1.5rem] border border-white/10 bg-itouch-surface/90 p-3 shadow-2xl backdrop-blur-xl sm:grid-cols-2 lg:grid-cols-4">
           {quickLinks.map(({ label, to, icon: Icon, color }) => (
             <Link
               key={label}
               to={to}
-              className="group flex items-center justify-between rounded-xl bg-itouch-surface-2 px-4 py-4 transition hover:-translate-y-1 hover:bg-white/10"
+              className="group relative flex items-center justify-between overflow-hidden rounded-2xl bg-itouch-surface-2 px-4 py-4 transition duration-300 hover:-translate-y-1 hover:bg-white/10"
             >
+              <span className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-itouch-orange via-itouch-blue to-itouch-green opacity-0 transition group-hover:opacity-100" />
               <span className="flex items-center gap-3">
-                <Icon className={color} size={22} />
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-black/30 transition group-hover:scale-110">
+                  <Icon className={color} size={22} />
+                </span>
                 <span className="font-display text-sm font-bold">{label}</span>
               </span>
               <ArrowRight className="text-itouch-white/30 transition group-hover:text-itouch-white" size={16} />
             </Link>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.55 }}
+        className="relative z-10 mx-auto max-w-7xl px-4 py-20 lg:px-8"
+      >
         <SectionHeading
           eyebrow="Shop by category"
           title="Everything customers visit i-Touch for"
@@ -102,9 +126,16 @@ const Home = () => {
             <CategoryCard key={cat.title} {...cat} />
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      <section className="bg-itouch-surface/60 py-20">
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.55 }}
+        className="relative z-10 border-y border-white/5 bg-itouch-surface/55 py-20 backdrop-blur"
+      >
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <SectionHeading
             eyebrow="Featured products"
@@ -115,15 +146,22 @@ const Home = () => {
           />
           <ProductGrid products={featured} loading={loadingFeatured} />
         </div>
-      </section>
+      </motion.section>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
-        <div className="grid gap-8 overflow-hidden rounded-2xl border border-itouch-green/20 bg-itouch-surface lg:grid-cols-[0.9fr_1.1fr]">
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.55 }}
+        className="relative z-10 mx-auto max-w-7xl px-4 py-20 lg:px-8"
+      >
+        <div className="group grid gap-8 overflow-hidden rounded-[1.75rem] border border-itouch-green/20 bg-itouch-surface/90 shadow-2xl shadow-itouch-green/5 backdrop-blur lg:grid-cols-[0.9fr_1.1fr]">
           <div className="relative min-h-[320px]">
             <img
               src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1200&q=80"
               alt="Console gaming setup"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6">
@@ -141,24 +179,35 @@ const Home = () => {
             </p>
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               {gamingPackages.map((pkg) => (
-                <div key={pkg.title} className="rounded-xl border border-white/10 bg-itouch-bg p-4">
+                <motion.div
+                  key={pkg.title}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  className="rounded-2xl border border-white/10 bg-itouch-bg/90 p-4 transition hover:border-itouch-green/40 hover:shadow-glow-green"
+                >
                   <p className="font-display text-xl font-bold text-itouch-green">{pkg.time}</p>
                   <h3 className="mt-2 font-display font-bold">{pkg.title}</h3>
                   <p className="mt-2 text-xs leading-5 text-itouch-white/55">{pkg.text}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
             <Link
               to="/gaming"
-              className="mt-7 inline-flex items-center gap-2 rounded-xl bg-itouch-green px-5 py-3 font-display font-bold text-black transition hover:shadow-glow-green"
+              className="shine-button mt-7 inline-flex items-center gap-2 rounded-xl bg-itouch-green px-5 py-3 font-display font-bold text-black transition hover:-translate-y-1 hover:shadow-glow-green"
             >
               Book PS5 Session <ArrowRight size={18} />
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="bg-itouch-surface/60 py-20">
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.55 }}
+        className="relative z-10 border-y border-white/5 bg-itouch-surface/55 py-20 backdrop-blur"
+      >
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <SectionHeading
             eyebrow="Latest deals"
@@ -183,26 +232,48 @@ const Home = () => {
             </div>
           )}
         </div>
-      </section>
+      </motion.section>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 lg:px-8">
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.55 }}
+        className="relative z-10 mx-auto max-w-7xl px-4 py-20 lg:px-8"
+      >
         <SectionHeading
           eyebrow="Why customers choose us"
           title="Simple service, useful products, fast ordering"
         />
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {whyChooseUs.map((item) => (
-            <div key={item.title} className="rounded-2xl border border-white/10 bg-itouch-surface p-5">
-              <ShieldCheck className="text-itouch-orange" size={28} />
+            <motion.div
+              key={item.title}
+              whileHover={{ y: -6 }}
+              className="group rounded-2xl border border-white/10 bg-itouch-surface/90 p-5 transition hover:border-itouch-orange/35 hover:bg-itouch-surface-2 hover:shadow-glow"
+            >
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-itouch-orange/10 transition group-hover:scale-110 group-hover:bg-itouch-orange">
+                <ShieldCheck className="text-itouch-orange transition group-hover:text-black" size={28} />
+              </div>
               <h3 className="mt-4 font-display font-bold">{item.title}</h3>
               <p className="mt-2 text-sm leading-6 text-itouch-white/60">{item.description}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-20 lg:px-8">
-        <div className="flex flex-col gap-5 rounded-2xl border border-itouch-orange/25 bg-gradient-to-r from-itouch-orange/15 via-itouch-surface to-itouch-blue/10 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.55 }}
+        className="relative z-10 mx-auto max-w-7xl px-4 pb-20 lg:px-8"
+      >
+        <div className="relative flex flex-col gap-5 overflow-hidden rounded-[1.75rem] border border-itouch-orange/25 bg-gradient-to-r from-itouch-orange/15 via-itouch-surface to-itouch-blue/10 p-6 shadow-2xl sm:p-8 lg:flex-row lg:items-center lg:justify-between">
+          <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-itouch-orange/20 blur-3xl" />
+          <div className="absolute -bottom-20 left-1/2 h-56 w-56 rounded-full bg-itouch-blue/20 blur-3xl" />
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-itouch-orange">
               Need help choosing?
@@ -214,12 +285,12 @@ const Home = () => {
           </div>
           <button
             onClick={() => openWhatsApp(buildGeneralWhatsAppUrl())}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-itouch-orange px-6 py-3 font-display font-bold text-black transition hover:shadow-glow"
+            className="shine-button relative inline-flex items-center justify-center gap-2 rounded-xl bg-itouch-orange px-6 py-3 font-display font-bold text-black transition hover:-translate-y-1 hover:shadow-glow"
           >
             <MessageCircle size={18} /> WhatsApp Us
           </button>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

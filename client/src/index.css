@@ -37,3 +37,22 @@ h1, h2, h3, h4 {
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
 }
+
+.shine-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-button::after {
+  content: "";
+  position: absolute;
+  inset: -40% auto -40% -65%;
+  width: 42%;
+  transform: rotate(18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transition: left 0.65s ease;
+}
+
+.shine-button:hover::after {
+  left: 125%;
+}

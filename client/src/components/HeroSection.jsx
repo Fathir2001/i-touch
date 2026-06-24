@@ -14,9 +14,28 @@ const HeroSection = () => (
     <img
       src="https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1800&q=85"
       alt="Sports shoes and shop display"
-      className="absolute inset-0 h-full w-full object-cover opacity-50"
+      className="absolute inset-0 h-full w-full scale-105 object-cover opacity-55"
     />
-    <div className="absolute inset-0 bg-gradient-to-r from-itouch-bg via-itouch-bg/90 to-itouch-bg/25" />
+    <motion.div
+      aria-hidden="true"
+      animate={{ opacity: [0.45, 0.75, 0.45], scale: [1, 1.08, 1] }}
+      transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+      className="absolute -left-24 top-16 h-72 w-72 rounded-full bg-itouch-orange/20 blur-3xl"
+    />
+    <motion.div
+      aria-hidden="true"
+      animate={{ opacity: [0.25, 0.55, 0.25], x: [0, -24, 0] }}
+      transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+      className="absolute right-0 top-36 h-96 w-96 rounded-full bg-itouch-blue/20 blur-3xl"
+    />
+    <motion.div
+      aria-hidden="true"
+      animate={{ opacity: [0.2, 0.5, 0.2], y: [0, 26, 0] }}
+      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      className="absolute bottom-16 right-1/4 h-64 w-64 rounded-full bg-itouch-green/15 blur-3xl"
+    />
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(0,194,255,0.2),transparent_32%),linear-gradient(90deg,#0a0a0f_0%,rgba(10,10,15,0.92)_45%,rgba(10,10,15,0.42)_100%)]" />
+    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:72px_72px] opacity-20" />
     <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-itouch-bg to-transparent" />
 
     <div className="relative mx-auto grid min-h-[720px] max-w-7xl items-center gap-10 px-4 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
@@ -24,7 +43,7 @@ const HeroSection = () => (
         <motion.span
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 rounded-full border border-itouch-orange/40 bg-black/40 px-4 py-2 text-sm font-semibold text-itouch-orange backdrop-blur"
+          className="inline-flex items-center gap-2 rounded-full border border-itouch-orange/40 bg-black/45 px-4 py-2 text-sm font-semibold text-itouch-orange shadow-glow backdrop-blur"
         >
           <Sparkles size={16} /> Sports, gaming and mobile in one place
         </motion.span>
@@ -33,9 +52,9 @@ const HeroSection = () => (
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mt-6 font-display text-4xl font-extrabold leading-tight sm:text-6xl lg:text-7xl"
+          className="mt-6 max-w-4xl font-display text-4xl font-extrabold leading-tight sm:text-6xl lg:text-7xl"
         >
-          i-Touch Sports, Gaming &amp; Mobile
+          i-Touch <span className="gradient-text">Sports, Gaming</span> &amp; Mobile
         </motion.h1>
 
         <motion.p
@@ -56,19 +75,19 @@ const HeroSection = () => (
         >
           <Link
             to="/products"
-            className="flex items-center justify-center gap-2 rounded-xl bg-itouch-orange px-6 py-3 font-display font-bold text-black transition-all hover:shadow-glow"
+            className="shine-button flex items-center justify-center gap-2 rounded-xl bg-itouch-orange px-6 py-3 font-display font-bold text-black transition-all hover:-translate-y-1 hover:shadow-glow"
           >
             <ShoppingBag size={18} /> Shop Products
           </Link>
           <Link
             to="/gaming"
-            className="flex items-center justify-center gap-2 rounded-xl border border-itouch-green/50 bg-itouch-green/10 px-6 py-3 font-display font-bold text-itouch-green transition-all hover:shadow-glow-green"
+            className="flex items-center justify-center gap-2 rounded-xl border border-itouch-green/50 bg-itouch-green/10 px-6 py-3 font-display font-bold text-itouch-green transition-all hover:-translate-y-1 hover:bg-itouch-green hover:text-black hover:shadow-glow-green"
           >
             <Gamepad2 size={18} /> Book PS5 Session
           </Link>
           <button
             onClick={() => openWhatsApp(buildGeneralWhatsAppUrl())}
-            className="flex items-center justify-center gap-2 rounded-xl border border-itouch-blue/50 bg-itouch-blue/10 px-6 py-3 font-display font-bold text-itouch-blue transition-all hover:shadow-glow-blue"
+            className="flex items-center justify-center gap-2 rounded-xl border border-itouch-blue/50 bg-itouch-blue/10 px-6 py-3 font-display font-bold text-itouch-blue transition-all hover:-translate-y-1 hover:bg-itouch-blue hover:text-black hover:shadow-glow-blue"
           >
             <MessageCircle size={18} /> WhatsApp Us
           </button>
@@ -81,10 +100,14 @@ const HeroSection = () => (
           className="mt-10 grid max-w-2xl grid-cols-3 gap-3"
         >
           {stats.map(([value, label]) => (
-            <div key={label} className="rounded-xl border border-white/10 bg-black/35 p-4 backdrop-blur">
+            <motion.div
+              key={label}
+              whileHover={{ y: -4, scale: 1.03 }}
+              className="rounded-xl border border-white/10 bg-black/40 p-4 shadow-lg backdrop-blur transition-colors hover:border-itouch-orange/40"
+            >
               <p className="font-display text-2xl font-bold text-itouch-white">{value}</p>
               <p className="mt-1 text-xs text-itouch-white/60">{label}</p>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>
@@ -95,13 +118,18 @@ const HeroSection = () => (
         transition={{ delay: 0.25 }}
         className="hidden lg:block"
       >
-        <div className="relative ml-auto max-w-md overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-4 shadow-2xl backdrop-blur">
+        <motion.div
+          animate={{ y: [0, -12, 0] }}
+          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+          className="relative ml-auto max-w-md overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/35 p-4 shadow-2xl backdrop-blur"
+        >
+          <div className="absolute inset-0 rounded-[1.75rem] bg-gradient-to-br from-itouch-orange/20 via-transparent to-itouch-green/20 opacity-80" />
           <img
             src="https://images.unsplash.com/photo-1605901309584-818e25960a8f?auto=format&fit=crop&w=900&q=80"
             alt="Gaming controller"
-            className="aspect-[4/5] w-full rounded-xl object-cover"
+            className="relative aspect-[4/5] w-full rounded-2xl object-cover"
           />
-          <div className="absolute bottom-8 left-8 right-8 rounded-xl border border-itouch-green/30 bg-black/70 p-4 backdrop-blur">
+          <div className="absolute bottom-8 left-8 right-8 rounded-2xl border border-itouch-green/30 bg-black/75 p-4 shadow-glow-green backdrop-blur">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-itouch-green">
               Gaming Zone
             </p>
@@ -113,7 +141,7 @@ const HeroSection = () => (
               View packages <ArrowRight size={16} />
             </Link>
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   </section>
