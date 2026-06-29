@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -225,6 +225,121 @@ const HomeIntro = () => (
   </motion.div>
 );
 
+const BrandIntro = ({ onComplete }) => {
+  const [phase, setPhase] = useState("playing");
+  const [navbarTarget, setNavbarTarget] = useState({ x: 0, y: 0 });
+  const timersRef = useRef([]);
+
+  useEffect(
+    () => {
+      timersRef.current.push(window.setTimeout(onComplete, 15000));
+
+      return () => {
+      timersRef.current.forEach((timer) => window.clearTimeout(timer));
+      };
+    },
+    [onComplete],
+  );
+
+  const finishIntro = () => {
+    setPhase("reveal");
+    timersRef.current.push(
+      window.setTimeout(() => {
+        const navbarLogo = document.getElementById("navbar-brand-logo");
+        const bounds = navbarLogo?.getBoundingClientRect();
+
+        if (bounds) {
+          setNavbarTarget({
+            x: bounds.left + bounds.width / 2 - window.innerWidth / 2,
+            y: bounds.top + bounds.height / 2 - window.innerHeight / 2,
+          });
+        }
+
+        setPhase("closing");
+      }, 1400),
+      window.setTimeout(onComplete, 2350),
+    );
+  };
+
+  return (
+    <motion.div
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+      className="fixed inset-0 z-[999] overflow-hidden bg-[#161a1f]"
+    >
+      <video
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+        poster="/media/i-touch-logo.png"
+        onEnded={finishIntro}
+        onError={onComplete}
+        aria-label="Animated i-Touch logo"
+        className="absolute inset-0 h-full w-full object-cover"
+      >
+        <source src="/media/i-touch-logo-intro.mp4" type="video/mp4" />
+      </video>
+
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_25%,rgba(10,10,15,0.48)_100%)]" />
+
+      <button
+        type="button"
+        onClick={onComplete}
+        className="absolute right-5 top-5 z-10 rounded-full border border-white/15 bg-black/45 px-4 py-2 text-xs font-semibold text-white/70 backdrop-blur transition hover:border-itouch-green/50 hover:text-itouch-green"
+      >
+        Skip intro
+      </button>
+
+      <div className="pointer-events-none absolute inset-0 grid place-items-center">
+        <motion.img
+          src="/media/i-touch-logo.png"
+          alt="i-Touch"
+          initial={{ opacity: 0, scale: 0.94 }}
+          animate={
+            phase === "playing"
+              ? { opacity: 0, scale: 0.94, x: 0, y: 0 }
+              : phase === "reveal"
+                ? { opacity: 1, scale: 1, x: 0, y: 0 }
+                : {
+                    opacity: 0.9,
+                    scale: 0.075,
+                    x: navbarTarget.x,
+                    y: navbarTarget.y,
+                  }
+          }
+          transition={{ duration: phase === "closing" ? 0.85 : 0.35, ease: "easeInOut" }}
+          className="max-h-[68vh] w-auto max-w-[72vw] rounded-[2rem] shadow-2xl shadow-black/40"
+        />
+      </div>
+
+      <AnimatePresence>
+        {phase === "reveal" && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            className="absolute inset-x-4 bottom-8 flex flex-wrap justify-center gap-3 sm:bottom-12"
+          >
+            {introItems.map(({ label, icon: Icon, color }, index) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, scale: 0.7, y: 18 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ delay: index * 0.08, type: "spring", stiffness: 220 }}
+                className="flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-4 py-2.5 shadow-xl backdrop-blur"
+              >
+                <Icon className={color} size={18} />
+                <span className="font-display text-sm font-bold">{label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
+
 const SectionHeading = ({ eyebrow, title, subtitle, link, linkLabel }) => (
   <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
     <div className="max-w-2xl">
@@ -260,11 +375,18 @@ const gamingPackages = [
   { title: "Group Play", time: "Custom", text: "Plan longer sessions and group bookings." },
 ];
 
+const shouldShowBrandIntro = () => {
+  const navigation = window.performance.getEntriesByType("navigation")[0];
+  const isPageRefresh = navigation?.type === "reload";
+
+  return isPageRefresh || window.sessionStorage.getItem("itouch-brand-intro-seen") !== "true";
+};
+
 const Home = () => {
   const [featured, setFeatured] = useState([]);
   const [offers, setOffers] = useState([]);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(shouldShowBrandIntro);
 
   useEffect(() => {
     fetchFeaturedProducts()
@@ -283,27 +405,21 @@ const Home = () => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    const timer = window.setTimeout(() => {
-      setShowIntro(false);
-      document.body.style.overflow = originalOverflow;
-
-      window.setTimeout(() => {
-        document.getElementById("home-hero")?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 220);
-    }, 5200);
-
     return () => {
-      window.clearTimeout(timer);
       document.body.style.overflow = originalOverflow;
     };
   }, [showIntro]);
 
+  const completeBrandIntro = () => {
+    window.sessionStorage.setItem("itouch-brand-intro-seen", "true");
+    setShowIntro(false);
+  };
+
   return (
     <div className="relative overflow-hidden bg-itouch-bg">
-      <AnimatePresence>{showIntro && <HomeIntro />}</AnimatePresence>
+      <AnimatePresence>
+        {showIntro && <BrandIntro onComplete={completeBrandIntro} />}
+      </AnimatePresence>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_28%,rgba(255,106,26,0.11),transparent_28%),radial-gradient(circle_at_88%_45%,rgba(0,194,255,0.1),transparent_30%),radial-gradient(circle_at_45%_80%,rgba(57,255,138,0.08),transparent_26%)]" />
       <div id="home-hero">
         <HeroSection />

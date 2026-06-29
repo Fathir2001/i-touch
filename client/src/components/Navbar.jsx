@@ -26,8 +26,13 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-itouch-bg/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
-        <Link to="/" className="font-display text-xl font-extrabold">
-          <span className="text-itouch-orange">i</span>
+        <Link
+          id="navbar-brand-logo"
+          to="/"
+          className="relative font-display text-xl font-extrabold"
+        >
+          <span className="absolute -left-1 -top-0.5 h-1.5 w-1.5 animate-pulse rounded-full bg-itouch-green shadow-glow-green" />
+          <span className="text-itouch-green">i</span>
           <span className="text-itouch-white">-Touch</span>
         </Link>
 
