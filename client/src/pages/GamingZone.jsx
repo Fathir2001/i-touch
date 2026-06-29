@@ -31,7 +31,9 @@ const GamingZone = () => (
       eyebrow="PS5 Gaming Zone"
       title="Book your next gaming session"
       subtitle="Shooting, multiplayer, FIFA, racing and steering wheel driving. Pick a package, send a request, and confirm fast through WhatsApp."
-      image="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1800&q=85"
+      image="/media/ps5-controller-frames/09.png"
+      video="/media/ps5-controller-intro.mp4"
+      videoLabel="A PlayStation 5 controller assembling from its internal components"
       ctaLabel="Book now"
       ctaTo="#booking"
     />
@@ -48,6 +50,20 @@ const GamingZone = () => (
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-itouch-green">Game modes</p>
           <h2 className="mt-2 font-display text-3xl font-bold">Choose your play style</h2>
+          <div className="mt-4 flex gap-2" aria-hidden="true">
+            {["△", "○", "×", "□"].map((symbol, index) => (
+              <span
+                key={symbol}
+                className={`grid h-8 w-8 place-items-center rounded-full border bg-black/25 font-display text-sm ${
+                  index % 2 === 0
+                    ? "border-itouch-blue/35 text-itouch-blue"
+                    : "border-itouch-green/35 text-itouch-green"
+                }`}
+              >
+                {symbol}
+              </span>
+            ))}
+          </div>
         </div>
         <p className="max-w-xl text-sm leading-6 text-itouch-white/60">
           Make the page feel like an activity destination, not just a booking form.

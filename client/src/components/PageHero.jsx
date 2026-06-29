@@ -1,15 +1,82 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
-const PageHero = ({ eyebrow, title, subtitle, image, ctaLabel, ctaTo, align = "left" }) => (
-  <section className="relative overflow-hidden border-b border-white/10 bg-itouch-bg">
+const HeroVideo = ({ src, poster, label }) => {
+  const videoRef = useRef(null);
+  const replayTimerRef = useRef(null);
+  const [showFinalFrame, setShowFinalFrame] = useState(false);
+
+  useEffect(
+    () => () => {
+      window.clearTimeout(replayTimerRef.current);
+    },
+    [],
+  );
+
+  const replayAfterPause = () => {
+    setShowFinalFrame(true);
+    replayTimerRef.current = window.setTimeout(() => {
+      if (!videoRef.current) return;
+      videoRef.current.currentTime = 0;
+      setShowFinalFrame(false);
+      videoRef.current.play().catch(() => {});
+    }, 1500);
+  };
+
+  return (
+    <>
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        playsInline
+        preload="metadata"
+        poster={poster}
+        aria-label={label}
+        onEnded={replayAfterPause}
+        className="absolute inset-0 hidden h-full w-full object-cover object-center opacity-90 motion-safe:block"
+      >
+        <source src={src} type="video/mp4" />
+      </video>
+      {showFinalFrame && (
+        <img
+          src={poster}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 hidden h-full w-full object-cover object-center opacity-90 motion-safe:block"
+        />
+      )}
+    </>
+  );
+};
+
+const PageHero = ({
+  eyebrow,
+  title,
+  subtitle,
+  image,
+  video,
+  videoLabel,
+  ctaLabel,
+  ctaTo,
+  align = "left",
+}) => (
+  <section className="relative min-h-[520px] overflow-hidden border-b border-white/10 bg-itouch-bg">
     <img
       src={image}
       alt=""
       className="absolute inset-0 h-full w-full scale-105 object-cover opacity-40"
       aria-hidden="true"
     />
+    {video && (
+      <HeroVideo
+        src={video}
+        poster={image}
+        label={videoLabel}
+      />
+    )}
     <motion.div
       aria-hidden="true"
       animate={{ opacity: [0.28, 0.58, 0.28], scale: [1, 1.08, 1] }}
@@ -22,16 +89,16 @@ const PageHero = ({ eyebrow, title, subtitle, image, ctaLabel, ctaTo, align = "l
       transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       className="absolute right-0 top-20 h-80 w-80 rounded-full bg-itouch-blue/20 blur-3xl"
     />
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_12%,rgba(57,255,138,0.16),transparent_30%),linear-gradient(90deg,#0a0a0f_0%,rgba(10,10,15,0.92)_50%,rgba(10,10,15,0.52)_100%)]" />
-    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] opacity-20" />
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_84%_18%,rgba(57,255,138,0.08),transparent_26%),linear-gradient(90deg,rgba(10,10,15,0.96)_0%,rgba(10,10,15,0.82)_34%,rgba(10,10,15,0.22)_62%,rgba(10,10,15,0.05)_100%)]" />
+    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px] opacity-10" />
     <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-itouch-bg to-transparent" />
 
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55 }}
-      className={`relative mx-auto max-w-7xl px-4 py-20 lg:px-8 ${
-        align === "center" ? "text-center" : ""
+      className={`relative mx-auto flex min-h-[520px] max-w-7xl flex-col justify-center px-4 py-20 lg:px-8 ${
+        align === "center" ? "items-center text-center" : "items-start"
       }`}
     >
       {eyebrow && (

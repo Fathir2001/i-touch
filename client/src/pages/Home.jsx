@@ -388,11 +388,21 @@ const Home = () => {
         <div className="group grid gap-8 overflow-hidden rounded-[1.75rem] border border-itouch-green/20 bg-itouch-surface/90 shadow-2xl shadow-itouch-green/5 backdrop-blur lg:grid-cols-[0.9fr_1.1fr]">
           <div className="relative min-h-[320px]">
             <img
-              src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1200&q=80"
-              alt="Console gaming setup"
-              className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+              src="/media/ps5-controller-frames/09.png"
+              alt="PlayStation 5 DualSense controller"
+              className="absolute inset-0 h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+            <div className="absolute right-5 top-5 flex gap-2" aria-hidden="true">
+              {["△", "○", "×", "□"].map((symbol) => (
+                <span
+                  key={symbol}
+                  className="grid h-8 w-8 place-items-center rounded-full border border-itouch-blue/30 bg-black/45 font-display text-xs text-itouch-blue backdrop-blur"
+                >
+                  {symbol}
+                </span>
+              ))}
+            </div>
             <div className="absolute bottom-6 left-6 right-6">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-itouch-green">
                 PS5 Gaming Zone
